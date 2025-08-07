@@ -51,3 +51,5 @@ group :development, :test do
 end
 
 gem "oas_rails", "~> 1.2"
+
+gem "alba", "~> 3.8"
