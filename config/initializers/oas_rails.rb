@@ -1,9 +1,9 @@
 # config/initializers/oas_rails.rb
 OasRails.configure do |config|
   # Basic Information about the API
-  config.info.title = 'OasRails'
+  config.info.title = 'Gutnite'
   config.info.version = '1.0.0'
-  config.info.summary = 'OasRails: Automatic Interactive API Documentation for Rails'
+  config.info.summary = 'Gutnite API Documentation'
   config.info.description = <<~HEREDOC
     # Welcome to OasRails
 
@@ -39,9 +39,9 @@ OasRails.configure do |config|
 
     For more information and advanced usage, visit the [OasRails GitHub repository](https://github.com/a-chacon/oas_rails).
   HEREDOC
-  config.info.contact.name = 'a-chacon'
-  config.info.contact.email = 'andres.ch@proton.me'
-  config.info.contact.url = 'https://a-chacon.com'
+  config.info.contact.name = 'mirzalazuardi hermawan'
+  config.info.contact.email = 'mirzalazuardi@gmail.com'
+  config.info.contact.url = 'https://mirzalazuardi.com'
 
   # Servers Information. For more details follow: https://spec.openapis.org/oas/latest.html#server-object
   config.servers = [{ url: 'http://localhost:3000', description: 'Local' }]
