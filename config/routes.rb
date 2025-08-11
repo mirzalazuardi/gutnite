@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       namespace :users, path: "users/:user_id" do
         resources :follows, only: [:create, :destroy]
+        get 'followings', to: 'follows#followings'
+        get 'followers', to: 'follows#followers'
         resources :sleep_records, only: [:index, :create]
       end
     end
