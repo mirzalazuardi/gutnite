@@ -26,7 +26,7 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   # @summary List followings
   def followings
     rows = Rails.cache.fetch("user:#{current_user.id}:followings", expires_in: 15.minutes) do
-      current_user.followings.includes(:followed_user).to_a
+      current_user.followings.to_a
     end
     render json: rows, each_serializer: FollowSerializer, status: :ok
   end
@@ -34,7 +34,7 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   # @summary List followers
   def followers
     rows = Rails.cache.fetch("user:#{current_user.id}:followers", expires_in: 15.minutes) do
-      current_user.followers.includes(:follower).to_a
+      current_user.followers.to_a
     end
     render json: rows, each_serializer: FollowSerializer, status: :ok
   end
