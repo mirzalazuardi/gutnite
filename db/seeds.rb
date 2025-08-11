@@ -7,3 +7,13 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+10.times do |i|
+  u = User.find_or_create_by!(name: Faker::Name.name + " #{i+1}")
+end
+
+User.all.each do |user|
+  (User.ids.sample(5) - [user.id]).each do |follower_id|
+    followed = User.find(follower_id)
+    FollowUserService.call(user, followed)
+  end
+end

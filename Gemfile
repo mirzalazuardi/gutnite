@@ -48,8 +48,10 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'database_cleaner-active_record'
   gem 'shoulda-matchers'
+  gem "faker", "~> 3.5"
 end
 
 gem "oas_rails", "~> 1.2"
 
 gem "alba", "~> 3.8"
+
