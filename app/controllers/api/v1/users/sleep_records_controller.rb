@@ -33,7 +33,9 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
   def followings
     cache_key = "user:#{@user.id}:following_sleeps"
     records = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      SleepRecordWentBedAfterService.new(@user).call
+      
+    records = SleepRecordWentBedAfterService.new(@user, include_self: true, type: :following).call
+      SleepRecordWentBedAfterService.new(@user, include_self: true, type: :following).call
     end
 
     render json: records, each_serializer: SleepRecordSerializer, status: :ok
