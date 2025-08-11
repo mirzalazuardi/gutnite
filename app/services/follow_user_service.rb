@@ -1,5 +1,5 @@
 class FollowUserService
-  Result = Struct.new(:success?, :message, :status, :errors, keyword_init: true)
+  Result = Struct.new(:success?, :message, :follow_id, :status, :errors, keyword_init: true)
 
   def self.call(follower, followed)
     new(follower, followed).call
@@ -16,6 +16,7 @@ class FollowUserService
       Result.new(
         success?: true,
         message: "Successfully followed",
+        follow_id: @follow.id,
         status: :created,
         errors: nil
       )
@@ -24,12 +25,14 @@ class FollowUserService
         success?: true,
         message: "Already following",
         status: :ok,
+        follow_id: @follow.id,
         errors: nil
       )
     else
       Result.new(
         success?: false,
         message: nil,
+        follow_id: nil,
         status: :unprocessable_entity,
         errors: @follow.errors.full_messages
       )
