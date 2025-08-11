@@ -1,5 +1,4 @@
-class SleepRecordsController < ApplicationController
-  before_action :set_user
+class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
 
   def index
     cache_key = "user:#{@user.id}:following_sleeps:v2:#{I18n.locale}"
@@ -30,17 +29,10 @@ class SleepRecordsController < ApplicationController
 
   private
 
-    def set_user
-      @user = User.find(params[:user_id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'User not found' }, status: :not_found
-    end
-
     def sleep_record_params
       params.require(:sleep_record)
         .permit(:went_to_bed_at, :woke_up_at)
     rescue ActionController::ParameterMissing
       render json: { error: 'Missing sleep record parameters' }, status: :bad_request
-      
     end
 end

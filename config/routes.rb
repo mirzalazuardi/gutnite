@@ -9,6 +9,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :follows, only: [:create, :destroy]
-  resources :sleep_records, only: [:index, :create]
+  namespace :api do
+    namespace :v1 do
+      namespace :users, path: "users/:user_id" do
+        resources :follows, only: [:create, :destroy]
+        resources :sleep_records, only: [:index, :create]
+      end
+    end
+  end
 end

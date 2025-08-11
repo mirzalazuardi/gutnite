@@ -1,11 +1,4 @@
-class FollowsController < ApplicationController
-  before_action :set_user
-
-  # @summary Create a follow relationship
-  # @no_auth
-  #
-  # @request_body The user to be created. At least include an `email`. [!User]
-  # @request_body_example basic user [Hash] {user: {name: "Luis", email: "luis@gmail.ocom"}}
+class Api::V1::Users::FollowsController < Api::V1::UsersController
 
   def create
     followed = User.find(params[:followed_user_id])
@@ -34,10 +27,6 @@ class FollowsController < ApplicationController
   end
 
   private
-
-    def set_user
-      @user = User.find(params[:user_id])
-    end
 
     def follow_params
       params.require(:follow).permit(:follower_id, :followed_user_id)
