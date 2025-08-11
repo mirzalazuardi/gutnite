@@ -1,24 +1,20 @@
 class Api::V1::Users::FollowsController < Api::V1::UsersController
 
+  # @summary Follow a user
+  # @request_body Follow to be created [!Hash{follow: Hash{followed_user_id: Integer}}]
   def create
-    followed = User.find(params[:followed_user_id])
-    @follow = Follow.find_or_initialize_by(
-      follower: @user,
-      followed_user: followed
-    )
-
-    if @follow.new_record? && @follow.save
-      render json: { message: "Successfully followed" }, serializer: FollowSerializer, status: :created
-    elsif !@follow.new_record?
-      render json: { message: "Already following" }, serializer: FollowSerializer, status: :ok
+    followed = User.find(params[:follow][:followed_user_id])
+    result = FollowUserService.call(current_user, followed)
+    if result.success?
+      render json: { message: result.message }, serializer: FollowSerializer, status: result.status
     else
-      render json: { errors: @follow.errors }, status: :unprocessable_entity
+      render json: { errors: result.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     followed = User.find(params[:id])
-    @follow = Follow.find_by(follower: @user, followed_user: followed)
+    @follow = Follow.find_by(follower: current_user, followed_user: followed)
     if @follow&.destroy
       head :no_content
     else
@@ -29,6 +25,6 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   private
 
     def follow_params
-      params.require(:follow).permit(:follower_id, :followed_user_id)
+      params.require(:follow).permit(:id, :follower_id, :followed_user_id)
     end
 end
