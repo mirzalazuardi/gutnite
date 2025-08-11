@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  after_commit { Rails.cache.delete('users') }
   has_many :follows, foreign_key: :follower_id, dependent: :destroy
   has_many :followings, through: :follows, source: :followed_user
 

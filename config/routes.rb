@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :api do
     namespace :v1 do
+      get 'users', to: 'users#all'
       namespace :users, path: "users/:user_id" do
         resources :follows, only: [:create, :destroy]
         get 'followings', to: 'follows#followings'
