@@ -16,7 +16,11 @@ Rails.application.routes.draw do
         resources :follows, only: [:create, :destroy]
         get 'followings', to: 'follows#followings'
         get 'followers', to: 'follows#followers'
-        resources :sleep_records, only: [:index, :create]
+        resources :sleep_records, only: [:index, :create] do
+          collection do
+            get 'followings', to: 'sleep_records#followings'
+          end
+        end
       end
     end
   end
