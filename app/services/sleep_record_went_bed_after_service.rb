@@ -1,4 +1,4 @@
-module SleepRecordWentBedAfterService
+class SleepRecordWentBedAfterService
   attr_reader :user, :opts
     def initialize(user, opts = {})
       @user = user
@@ -27,7 +27,7 @@ module SleepRecordWentBedAfterService
       when :following
         user.following.pluck(:id)
       when :followers
-        user.followers.pluck(:id) + [user.id]
+        user.followers.pluck(:id)
       else
         []
       end
