@@ -23,9 +23,10 @@ class SleepRecordWentBedAfterService
     end
 
     def extract_user_ids(user, opts)
+      opts[:type] ||= :following
       case opts[:type]
       when :following
-        user.following.pluck(:id)
+        user.followings.pluck(:id)
       when :followers
         user.followers.pluck(:id)
       else
