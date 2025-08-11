@@ -1,18 +1,10 @@
 class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
 
+  # @summary List sleep records of the user
   def index
-    cache_key = "user:#{@user.id}:following_sleeps:v2:#{I18n.locale}"
+    cache_key = "user:#{@user.id}:following_sleeps"
     records = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      one_week_ago = 1.week.ago.beginning_of_day
-      following_ids = Follow.where(follower: @user).pluck(:followed_user_id)
-      next [] if following_ids.blank?
-
-      SleepRecord
-        .where(user_id: following_ids)
-        .where("went_to_bed_at >= ?", one_week_ago)
-        .includes(:user)
-        .order("duration DESC")
-        .limit(100)
+      SleepRecordWentBedAfterService.new(@user).call
     end
 
     render json: records, each_serializer: SleepRecordSerializer, status: :ok
