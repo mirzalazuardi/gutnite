@@ -25,18 +25,18 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
 
   # @summary List followings
   def followings
-    Rails.cache.fetch("user:#{current_user.id}:followings", expires_in: 15.minutes) do
-      rows = current_user.followings.includes(:followed_user).to_a
-      render json: rows, each_serializer: FollowSerializer, status: :ok
+    rows = Rails.cache.fetch("user:#{current_user.id}:followings", expires_in: 15.minutes) do
+      current_user.followings.includes(:followed_user).to_a
     end
+    render json: rows, each_serializer: FollowSerializer, status: :ok
   end
 
   # @summary List followers
   def followers
-    Rails.cache.fetch("user:#{current_user.id}:followers", expires_in: 15.minutes) do
-      rows = current_user.followers.includes(:follower).to_a
-      render json: rows, each_serializer: FollowSerializer, status: :ok
+    rows = Rails.cache.fetch("user:#{current_user.id}:followers", expires_in: 15.minutes) do
+      current_user.followers.includes(:follower).to_a
     end
+    render json: rows, each_serializer: FollowSerializer, status: :ok
   end
 
   private
