@@ -12,6 +12,7 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
     end
   end
 
+  # @summary Unfollow a user
   def destroy
     followed = User.find(params[:id])
     @follow = Follow.find_by(follower: current_user, followed_user: followed)
@@ -19,6 +20,22 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
       head :no_content
     else
       render json: { error: "Not following" }, status: :not_found
+    end
+  end
+
+  # @summary List followings
+  def followings
+    Rails.cache.fetch("user:#{current_user.id}:followings", expires_in: 15.minutes) do
+      rows = current_user.followings.includes(:followed_user).to_a
+      render json: rows, each_serializer: FollowSerializer, status: :ok
+    end
+  end
+
+  # @summary List followers
+  def followers
+    Rails.cache.fetch("user:#{current_user.id}:followers", expires_in: 15.minutes) do
+      rows = current_user.followers.includes(:follower).to_a
+      render json: rows, each_serializer: FollowSerializer, status: :ok
     end
   end
 
