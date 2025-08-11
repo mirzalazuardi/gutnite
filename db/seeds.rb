@@ -28,4 +28,7 @@ User.all.each do |user|
       woke_up_at: time + (rand(5) + 24).hours + i.days,
     )
   end
+
+# delete all key-value pairs in the cache
+Rails.cache.clear
 end
