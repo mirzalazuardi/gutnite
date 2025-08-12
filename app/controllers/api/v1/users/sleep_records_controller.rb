@@ -7,14 +7,7 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
       SleepRecordWentBedAfterService.new(@user, include_self: true).call
     end
 
-    render json: @sleep_records,
-      each_serializer: SleepRecordSerializer, status: :ok
-  end
-
-  # @summary Show a specific sleep record of the user
-  def show
-    @sleep_record = @user.sleep_records.find(params[:id])
-    render json: @sleep_record, serializer: SleepRecordSerializer, status: :ok
+    render json: SleepRecordSerializer.new(@sleep_records).serialize, status: :ok
   end
 
   # @summary create a new sleep record for the user
@@ -22,8 +15,8 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
   def create
     @sleep_record = @user.sleep_records.new(sleep_record_params)
     if @sleep_record.save
-      render json: @sleep_record,
-        serializer: SleepRecordSerializer, status: :created
+      render json: SleepRecordSerializer.new(@sleep_record).serialize,
+        status: :created
     else
       render json: {errors: @sleep_record.errors}, status: :unprocessable_entity
     end
@@ -33,12 +26,11 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
   def followings
     cache_key = "user:#{@user.id}:following_sleeps"
     records = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      
-    records = SleepRecordWentBedAfterService.new(@user, include_self: true, type: :following).call
       SleepRecordWentBedAfterService.new(@user, include_self: true, type: :following).call
     end
 
-    render json: records, each_serializer: SleepRecordSerializer, status: :ok
+    render json: SleepRecordSerializer.new(records, with_traits: :user).serialize,
+      status: :ok
   end
 
   private
