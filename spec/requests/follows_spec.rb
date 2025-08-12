@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Follows", type: :request do
-  subject { response }
-
   before(:all) do
     create_list(:user, 5)
   end
