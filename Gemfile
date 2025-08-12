@@ -49,6 +49,7 @@ group :development, :test do
   gem 'database_cleaner-active_record'
   gem 'shoulda-matchers'
   gem "faker", "~> 3.5"
+  gem "pry-rails", "~> 0.3.11"
 end
 
 gem "oas_rails", "~> 1.2"
