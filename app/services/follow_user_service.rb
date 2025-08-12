@@ -22,11 +22,11 @@ class FollowUserService
       )
     elsif !@follow.new_record?
       Result.new(
-        success?: true,
-        message: "Already following",
-        status: :ok,
+        success?: false,
+        message: nil,
+        status: :unprocessable_entity,
         follow_id: @follow.id,
-        errors: nil
+        errors: "Already following"
       )
     else
       Result.new(
