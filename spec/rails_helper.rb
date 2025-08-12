@@ -87,4 +87,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  def json_response
+    JSON.parse(response.body)
+  rescue JSON::ParserError => e
+    raise "Response body is not valid JSON: #{e.message}"
+  end
 end
