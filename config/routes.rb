@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsPerformance::Engine, at: 'rails/performance'
   mount OasRails::Engine => '/docs'
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
