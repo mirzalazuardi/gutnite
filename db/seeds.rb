@@ -9,19 +9,19 @@
 #   end
 time = 1.week.ago.beginning_of_day
 
-10.times do |i|
+1000.times do |i|
   u = User.find_or_create_by!(name: Faker::Name.name + " #{i+1}")
 end
 
 User.all.each do |user|
-  (User.ids.sample(5) - [user.id]).each do |follower_id|
+  (User.ids.sample(15) - [user.id]).each do |follower_id|
     followed = User.find(follower_id)
     FollowUserService.call(user, followed)
   end
 end
 
 User.all.each do |user|
-  10.times do |i|
+  30.times do |i|
     SleepRecord.create!(
       user: user,
       went_to_bed_at: time + (rand(3) + 20).hours + i.days,
