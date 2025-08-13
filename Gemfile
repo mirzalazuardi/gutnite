@@ -62,3 +62,5 @@ gem "rails_performance", "~> 1.4"
 gem "bullet", "~> 8.0", :group => :development
 
 gem "pagy", "~> 9.3"
+
+gem "shog", "~> 0.2.1"
