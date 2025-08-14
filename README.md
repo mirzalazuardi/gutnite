@@ -13,7 +13,17 @@
     ```
 3. Open your browser and navigate to `http://localhost:3000/docs`, i'm already provide API documentation on this path,
     this also can hit the endpoints directly from the browser.
+4. For check performance of the api endpoints, you can use `https://localhost:3000/rails/performance/`
 4. Happy testing!
+
+## API Documentation
+
+![image](image.png)
+
+## Download endpoints collection
+
+You can download the Postman collection for the Goodnight App API endpoints from the following link:
+   [here](./openapi-spec.json)
 
 ## spec files
 
