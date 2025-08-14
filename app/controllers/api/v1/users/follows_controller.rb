@@ -3,9 +3,10 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   # @summary Follow a user
   # @request_body Follow to be created [!Hash{follow: Hash{followed_user_id: Integer}}]
   def create
-    followed = User.find(params[:follow][:followed_user_id])
-    result = FollowUserService.call(current_user, followed)
+    followed_user_id = User.find(params[:follow][:followed_user_id])
+    result = FollowUserService.call(current_user, followed_user_id)
     if result.success?
+      delete_caches(followed_user_id)
       render json: { message: result.message, id: result.follow_id },
          status: result.status
     else
@@ -17,8 +18,7 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   def destroy
     @follow = Follow.find_by(follower: current_user, id: params[:id])
     if @follow&.destroy
-      Rails.cache.delete("user:#{current_user.id}:followings")
-      Rails.cache.delete("user:#{@follow.followed_user_id}:followers")
+      delete_caches(@follow.followed_user_id)
 
       head :no_content
     else
@@ -50,5 +50,10 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
       params.require(:follow).permit(:id, :follower_id, :followed_user_id)
     rescue ActionController::ParameterMissing
       render json: { error: 'Missing follow parameters' }, status: :bad_request
+    end
+
+    def delete_caches(followed_user_id)
+      Rails.cache.delete("user:#{current_user.id}:followings:*")
+      Rails.cache.delete("user:#{followed_user_id}:followers:*")
     end
 end
