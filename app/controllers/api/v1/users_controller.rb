@@ -2,11 +2,11 @@ class Api::V1::UsersController < ApplicationController
   before_action :set_user, except: [:all]
 
   # @summary List all users
+  # @parameter page(query) [String] Page number for pagination
   def all
-    @users = Rails.cache.fetch('users', expires_in: 15.minutes) do
-      User.all
-    end
-    render json: @users, each_serializer: UserSerializer, status: :ok
+    opts = { page: params[:page], cache_key: "users"}
+    source =  User.all
+    render_list(source, UserSerializer, opts)
   end
 
   protected
