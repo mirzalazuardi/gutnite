@@ -13,6 +13,7 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
   def create
     @sleep_record = @user.sleep_records.new(sleep_record_params)
     if @sleep_record.save
+      delete_caches
       render json: SleepRecordSerializer.new(@sleep_record).serialize,
         status: :created
     else
@@ -37,5 +38,11 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
     rescue ActionController::ParameterMissing
       render json: { error: 'Missing sleep record parameters' },
         status: :bad_request
+    end
+
+
+    def delete_caches
+      Rails.cache.delete_matched("user:#{current_user.id}:sleep_records:*")
+      Rails.cache.delete_matched("user:#{current_user.id}:following_sleeps:*")
     end
 end
