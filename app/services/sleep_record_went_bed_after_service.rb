@@ -7,9 +7,10 @@ class SleepRecordWentBedAfterService
 
     def call
       period = extract_period(opts)
-      itself = opts[:include_self] || false
+      itself = opts[:include_self] || true
       user_ids = extract_user_ids(user, opts)
       user_ids = user_ids + [user.id] if itself
+      user_ids = user_ids.uniq
 
       return [] if user_ids.blank?
 
@@ -37,9 +38,6 @@ class SleepRecordWentBedAfterService
       ::SleepRecord
         .where(user_id: user_ids)
         .where("went_to_bed_at >= ?", period)
-        .includes(:user)
         .order("duration DESC")
-        .limit(100)
-        .to_a
     end
 end
