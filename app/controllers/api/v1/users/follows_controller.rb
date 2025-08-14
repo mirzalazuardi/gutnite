@@ -27,19 +27,21 @@ class Api::V1::Users::FollowsController < Api::V1::UsersController
   end
 
   # @summary List followings
+  # @parameter page(query) [String] Page number for pagination
   def followings
-    rows = Rails.cache.fetch("user:#{current_user.id}:followings", expires_in: 15.minutes) do
-      Follow.includes(:followed_user).where(follower_id: current_user.id).to_a
-    end
-    render json: FollowSerializer.new(rows).serialize, status: :ok
+    opts = {page: params[:page]}
+    opts[:cache_key] = "user:#{current_user.id}:followings"
+    source = Follow.includes(:followed_user).includes([:follower])
+      .where(follower_id: current_user.id)
+    render_list(source, FollowSerializer, opts)
   end
 
   # @summary List followers
+  # @parameter page(query) [String] Page number for pagination
   def followers
-    rows = Rails.cache.fetch("user:#{current_user.id}:followers", expires_in: 15.minutes) do
-      Follow.includes(:follower).where(followed_user_id: current_user.id).to_a
-    end
-    render json: FollowSerializer.new(rows).serialize, status: :ok
+    opts = {page: params[:page], cache_key: "user:#{current_user.id}:followers"}
+    source = Follow.includes(:follower).where(followed_user_id: current_user.id).includes([:followed_user])
+    render_list(source, FollowSerializer, opts)
   end
 
   private

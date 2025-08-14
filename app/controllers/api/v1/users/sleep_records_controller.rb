@@ -1,13 +1,11 @@
 class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
 
   # @summary List sleep records of the user
+  # @parameter page(query) [String] Page number for pagination
   def index
-    cache_key = "user:#{@user.id}:sleep_records"
-    @sleep_records = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      SleepRecordWentBedAfterService.new(@user, include_self: true).call
-    end
-
-    render json: SleepRecordSerializer.new(@sleep_records).serialize, status: :ok
+    opts = { page: params[:page], cache_key: "user:#{@user.id}:sleep_records"}
+    source = SleepRecordWentBedAfterService.new(current_user).call
+    render_list(source, SleepRecordSerializer, opts)
   end
 
   # @summary create a new sleep record for the user
@@ -23,14 +21,12 @@ class Api::V1::Users::SleepRecordsController < Api::V1::UsersController
   end
 
   # @summary List sleep records of the user's following users
+  # @parameter page(query) [String] Page number for pagination
   def followings
-    cache_key = "user:#{@user.id}:following_sleeps"
-    records = Rails.cache.fetch(cache_key, expires_in: 15.minutes) do
-      SleepRecordWentBedAfterService.new(@user, include_self: true, type: :following).call
-    end
-
-    render json: SleepRecordSerializer.new(records, with_traits: :user).serialize,
-      status: :ok
+    opts = { page: params[:page], cache_key: "user:#{@user.id}:following_sleeps" }
+    source = SleepRecordWentBedAfterService
+      .new(current_user, type: :following).call.includes([:user])
+    render_list(source, SleepRecordSerializer, opts, {with_traits: :user})
   end
 
   private
