@@ -29,3 +29,6 @@ You can download the Postman collection for the Goodnight App API endpoints from
 
 - `spec/requests/api/v1/follows_spec.rb`: Contains tests for the follow API endpoints. *read the NOTE*
 - `spec/requests/api/v1/sleep_records_spec.rb`: Contains tests for the sleep records API endpoints.
+- `spec/models/follow_spec.rb`: Contains tests for the Follow model.
+- `spec/models/sleep_record_spec.rb`: Contains tests for the SleepRecord model.
+- `spec/models/user_spec.rb`: Contains tests for the User model.
