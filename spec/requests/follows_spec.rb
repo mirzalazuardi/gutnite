@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# NOTE: dont know for sure if i rspec for whole page return many failed, but if i run partially it all passes
+
 RSpec.describe "Follows", type: :request do
   before(:all) do
     create_list(:user, 5)
