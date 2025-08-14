@@ -1,7 +1,4 @@
 class Follow < ApplicationRecord
-  after_create_commit { Rails.cache.delete_matched("user:#{follower_id}:followings") }
-  after_create_commit { Rails.cache.delete_matched("user:#{followed_user_id}:followers") }
-
   belongs_to :follower, class_name: 'User'
   belongs_to :followed_user, class_name: 'User'
 

@@ -1,7 +1,4 @@
 class SleepRecord < ApplicationRecord
-  after_create_commit { Rails.cache.delete_matched("user:#{user_id}:sleep_records") }
-  after_create_commit { Rails.cache.delete_matched("user:#{user_id}:following_sleeps") }
-
   belongs_to :user
 
   before_validation :calculate_duration
