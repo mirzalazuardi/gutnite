@@ -1,43 +1,56 @@
 # config/initializers/oas_rails.rb
 OasRails.configure do |config|
   # Basic Information about the API
-  config.info.title = 'Gutnite'
+  config.info.title = 'Goodnight API'
   config.info.version = '1.0.0'
-  config.info.summary = 'Gutnite API Documentation'
+  config.info.summary = 'Goodnight API Documentation'
   config.info.description = <<~HEREDOC
-    # Welcome to OasRails
+    # Welcome to Goodnight app
 
-    OasRails automatically generates interactive documentation for your Rails APIs using the OpenAPI Specification 3.1 (OAS 3.1) and displays it with a nice UI.
+    ## Question
 
-    ## Getting Started
+    We want to know how do you structure the code and design the API
+    Please use Rails for this project
 
-    You've successfully mounted the OasRails engine. This default documentation is based on your routes and automatically gathered information.
+    We would like you to implement a "good night" application to let users
+    track when they go to bed and when they wake up.
+    We require some restful APIS to achieve the following:
+    1. Clock In operation, and return all clocked-in times, ordered by
+    created time.
+    2. Users can follow and unfollow other users.
+    3. See the sleep records of a user's All following users' sleep
+    records. from the previous week, which are sorted based on the duration
+    of All friends sleep length.
+    This is 3rd requirement response example
+    {
+    record 1 from user A,
+    record 2 from user B,
+    record 3 from user A,
+    ...
+    }
+    Please implement the model, database migrations, schema, and JSON API.
+    Additionally, write tests for the APIs.
+    Consider that the system must efficiently handle a growing user base,
+    managing high data volumes and concurrent requests. Document the
+    strategies used to achieve this.
+    You can assume that there are only two fields on the users "id" and
+    "name"
+    .
+    You do not need to implement any user registration API.
+    You can use any gems you like.
+    *Sometimes, requirements may not be entirely clear. In such cases,
+    please feel free to make reasonable assumptions and propose the best
+    solution based on your experience and judgment.
 
-    ## Enhancing Your Documentation
+    After you finish the project, please send me your GitHub project link.
+    We want to see all of your development commits.
+    - It is important to have separate commits with clear descriptions for
+    each change.
+    - In Tripla, it is not a good practice to have one commit with a lot of
+    changes.
+    Please ensure that you have granted permission for Google Meet to share
+    your screen, as we may need you to do so during the meeting
 
-    To customize and enrich your API documentation:
-
-    1. Generate an initializer file:
-
-      ```
-      rails generate oas_rails:config
-      ```
-    2. Edit the created `config/initializers/oas_rails.rb` file to override default settings and add project-specific information.
-
-    3. Use Yard tags in your controller methods to provide detailed API endpoint descriptions.
-
-    Docs: <https://a-chacon.com/oas_rails/>
-
-    ## Features
-
-    - Automatic OAS 3.1 document generation
-    - [RapiDoc](https://github.com/rapi-doc/RapiDoc) integration for interactive exploration
-    - Minimal setup required for basic documentation
-    - Extensible through configuration and Yard tags
-
-    Explore your API documentation and enjoy the power of OasRails!
-
-    For more information and advanced usage, visit the [OasRails GitHub repository](https://github.com/a-chacon/oas_rails).
   HEREDOC
   config.info.contact.name = 'mirzalazuardi hermawan'
   config.info.contact.email = 'mirzalazuardi@gmail.com'
