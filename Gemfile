@@ -54,7 +54,7 @@ end
 
 gem "oas_rails", "~> 1.2"
 
-gem "alba", "~> 3.8"
+gem "alba", "~> 3.9"
 
 
 gem "rails_performance", "~> 1.4"
