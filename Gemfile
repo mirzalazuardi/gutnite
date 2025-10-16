@@ -52,7 +52,7 @@ group :development, :test do
   gem "pry-rails", "~> 0.3.11"
 end
 
-gem "oas_rails", "~> 1.2"
+gem "oas_rails", "~> 1.3"
 
 gem "alba", "~> 3.8"
 
