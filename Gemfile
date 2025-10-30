@@ -57,7 +57,7 @@ gem "oas_rails", "~> 1.2"
 gem "alba", "~> 3.8"
 
 
-gem "rails_performance", "~> 1.4"
+gem "rails_performance", "~> 1.6"
 
 gem "bullet", "~> 8.0", :group => :development
 
